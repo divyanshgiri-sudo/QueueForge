@@ -1,0 +1,30 @@
+{
+  "name": "project01",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/divyanshgiri-sudo/QueueForge.git"
+  },
+  "author": "Divyansh Giri",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/divyanshgiri-sudo/QueueForge/issues"
+  },
+  "homepage": "https://github.com/divyanshgiri-sudo/QueueForge#readme",
+  "dependencies": {
+    "bullmq": "^5.77.3",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.6.2",
+    "nodemailer": "^8.0.9"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
