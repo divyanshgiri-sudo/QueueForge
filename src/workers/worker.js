@@ -15,7 +15,7 @@ const universalWorker = new Worker(
 
 universalWorker.on('completed',
     (job)=>{
-        console.log("sending mail to client failed " , job.id , job.name , job.data);
+        console.log("sending mail to client successfull" , job.id , job.name , job.data);
     }
 )
 universalWorker.on('failed',(job , err)=>{

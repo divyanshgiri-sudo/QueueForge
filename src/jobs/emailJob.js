@@ -1,8 +1,8 @@
 import nodemailer from 'nodemailer'
 
-function sendMailJob() {
-    console.log(process.env.MAIL_USER);
-console.log(process.env.MAIL_PASS);
+function sendMailJob(job) {
+
+    const {to , subject , body} = job.data;
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -13,9 +13,9 @@ console.log(process.env.MAIL_PASS);
 
     const emailOptions = {
         from: 'divyanshgiri13.9dvbps@gmail.com',
-        to: 'divyanshgirivbps@gmail.com',
-        subject: 'hii man',
-        body: 'hii this is my first text'
+        to: to,
+        subject: subject,
+        text: body
     }
 
     transporter.sendMail(emailOptions, (err, info) => {
