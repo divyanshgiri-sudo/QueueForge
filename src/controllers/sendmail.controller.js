@@ -1,4 +1,4 @@
-import { emailQueue } from "../../../email-queue-with-reddis-list/src/queue.js"
+
 import { universalQueue } from "../queue/queue.js"
 const sendEmail = async (req,res) => {
     const priorityMap = {
