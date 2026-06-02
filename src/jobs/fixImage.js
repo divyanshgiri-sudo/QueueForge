@@ -12,8 +12,8 @@ const uploadImageOnCloudinary = async () => {
     return uploadedImage;
 }
 
-const setImageSize = async (req,res) => {
-    const {userHeight , userWidth}  = req.body ;
+async function setImageSize (job)  {
+    const {userHeight , userWidth}  = job.data ;
     const filePath = `public/temp/${Date.now()}.jpg` ;
     const LocalPath = req.files?.userImage[0]?.path ;
     await sharp(LocalPath).resize({
@@ -21,14 +21,12 @@ const setImageSize = async (req,res) => {
         width : userWidth
     }).toFile(filePath)
     const uploadedImage = uploadImageOnCloudinary(filePath)
-    res.status(200).json({
-        message:"image seccessfully resized and uploadede on cloudinary"
-    })
+    console.log('image seccessfully resized and uploadede on cloudinary')
 }
 
-const changeImageType = async (req , res) => {
+async  function changeImageType (job){
 
-    const {userImageType} = req.body;
+    const {userImageType} = job.data;
     const filePath = `public/temp/${Date.now()}.jpg` 
     const LocalPath =  req.files?.userImage[0]?.path ;
 
@@ -36,9 +34,7 @@ const changeImageType = async (req , res) => {
 
     uploadImageOnCloudinary(filePath)
     
-    res.status(200).json({
-        message:"image seccessfully converted into the format user mentioned and uploaded on cloudinary"
-    })
+    console.log('image seccessfully converted into the format user mentioned and uploaded on cloudinary')
 
     
 }

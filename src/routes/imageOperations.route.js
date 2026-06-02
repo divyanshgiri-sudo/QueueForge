@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { changeImageType, setImageSize } from "../jobs/fixImage.js";
+import {changingImageType , settingImageSize} from '../controllers/imageOperation.controller.js'
 import upload from "../middleware/mutler.middleware.js";
 
 const router = Router();
 
-router.route('/setImageSize').post(upload.single('userImage') , setImageSize)
-router.route('/setImageSize').post(upload.single('userImage') , changeImageType)
+router.route('/changeImgType').post(upload.single('userImage') , changingImageType)
+router.route('/setImageSize').post(upload.single('userImage') , settingImageSize)
 
 export default router
