@@ -2,6 +2,13 @@ import { universalQueue } from "../queue/queue.js";
 
 const changingImageType = async (req , res) => {
     const {imgTypeUserWants , userPriority} = req.body;
+    const userImageLocalPath = req.file?.path
+        console.log(imgTypeUserWants)
+    if(!userImageLocalPath){
+        return res.status(400).json({
+            message:'enter a image'
+        })
+    }
     const priorityMap = {
         low: 1000000 , 
         med : 500000,
@@ -21,7 +28,8 @@ const changingImageType = async (req , res) => {
     try {
         await universalQueue.add(
             'change-image-type-operation',{
-                userImageType:imgTypeUserWants
+                userImageType:imgTypeUserWants,
+                userImageLocalPath : userImageLocalPath
             },
             {
                 priority:priorityNo,
@@ -37,6 +45,7 @@ const changingImageType = async (req , res) => {
         })
     } catch (error) {
         console.log("some error occurrred while trying the change the image type - " , error)
+        return;
     }
 
 }
@@ -50,6 +59,13 @@ const settingImageSize = async (req , res) => {
     }
     const {userHeight , userWidth , userPriority} = req.body;
     const priorityNo = priorityMap[userPriority]
+    const userImageLocalPath = req.file?.path
+    if(!userImageLocalPath){
+        return res.status(400).json({
+            message:'Please enter the image'
+        })
+    }
+
 
     if(!userHeight || !userWidth ||priorityNo){
         return res.status(400).json({
@@ -60,8 +76,9 @@ const settingImageSize = async (req , res) => {
     try {
         await universalQueue.add(
             'setting-image-size' , {
-                userHeight:'userHeight' , 
-                userWidth:'userWidth' , 
+                userHeight:userHeight , 
+                userWidth:userWidth , 
+                userImageLocalPath:userImageLocalPath
             },{
                 priority:priorityNo ,
                 attempts:3,
@@ -76,7 +93,7 @@ const settingImageSize = async (req , res) => {
         })
     } catch (error) {
         console.log("Some error occured while trying to change the dimnesion of the image - " , error)
-
+        return;
     }
     
 }

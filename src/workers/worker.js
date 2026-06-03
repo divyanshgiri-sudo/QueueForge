@@ -1,6 +1,6 @@
 import { Worker } from "bullmq";
 import sendMailJob from "../jobs/emailJob.js";
-import { settingImageSize , changingImageType } from "../controllers/imageOperation.controller.js";
+import { setImageSize , changeImageType } from "../jobs/fixImage.js";
 import { connection } from "../queue/queue.js";
 
 import dotenv from "dotenv"
@@ -9,8 +9,8 @@ dotenv.config({
 })
 const handlers = {
     'sending-email-to-the-client':sendMailJob , 
-    'change-image-type-operation':changingImageType,
-    'setting-image-size':settingImageSize
+    'change-image-type-operation':changeImageType,
+    'setting-image-size':setImageSize
 }
 const universalWorker = new Worker(
     'universal',

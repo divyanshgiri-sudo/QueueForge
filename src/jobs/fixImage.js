@@ -1,40 +1,54 @@
 import sharp from 'sharp'
 import uploadOnCloudinary from '../utils/cloudinary.js';
 
-const uploadImageOnCloudinary = async () => {
-    const LocalPath = req.files?.userImage[0]?.path ;
-    if(LocalPath){
-        res.status(400).json({
-            message :"Please enter an image"
-        })
+const uploadImageOnCloudinary = async (path) => {
+    // const LocalPath = req.files?.userImage[0]?.path ;
+    const LocalPath = path;
+    if(!LocalPath){
+        console.log("give image")
+        throw new error;
     }
     const uploadedImage = await uploadOnCloudinary(LocalPath);
     return uploadedImage;
 }
 
 async function setImageSize (job)  {
-    const {userHeight , userWidth}  = job.data ;
+    const {userHeight , userWidth , userImageLocalPath}  = job.data ;
     const filePath = `public/temp/${Date.now()}.jpg` ;
-    const LocalPath = req.files?.userImage[0]?.path ;
+    const LocalPath = userImageLocalPath;
+  
     await sharp(LocalPath).resize({
         height: userHeight , 
         width : userWidth
     }).toFile(filePath)
-    const uploadedImage = uploadImageOnCloudinary(filePath)
-    console.log('image seccessfully resized and uploadede on cloudinary')
+    const uploadedImage = await uploadImageOnCloudinary(filePath)
+    if(uploadedImage){
+        console.log('image seccessfully resized and uploadede on cloudinary')
+        return;
+    }else{
+        console.log("image coudnt be uploadede on cloudinary after processing")
+        throw new error
+    }
+    
 }
 
 async  function changeImageType (job){
-
-    const {userImageType} = job.data;
+    const {userImageType , userImageLocalPath} = job.data;
     const filePath = `public/temp/${Date.now()}.jpg` 
-    const LocalPath =  req.files?.userImage[0]?.path ;
+    const LocalPath =  userImageLocalPath;
 
     await sharp(LocalPath).toFormat(userImageType).toFile(filePath) 
 
-    uploadImageOnCloudinary(filePath)
+    const uploadedImage = await uploadImageOnCloudinary(filePath)
+    if(!uploadedImage){
+        console.log('image seccessfully converted into the format user mentioned and uploaded on cloudinary')
+        return;
+    }else{
+        console.log("image coudnt be uploaded on cloudinary after processing")
+        throw new error
+    }
     
-    console.log('image seccessfully converted into the format user mentioned and uploaded on cloudinary')
+    
 
     
 }
