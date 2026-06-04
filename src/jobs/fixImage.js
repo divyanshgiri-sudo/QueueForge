@@ -39,7 +39,7 @@ async  function changeImageType (job){
 
     await sharp(LocalPath).toFormat(userImageType).toFile(filePath) 
 
-    const uploadedImage = await uploadImageOnCloudinary(filePath)
+    const uploadedImage = await uploadOnCloudinary(filePath)
     if(!uploadedImage){
         console.log('image seccessfully converted into the format user mentioned and uploaded on cloudinary')
         return;

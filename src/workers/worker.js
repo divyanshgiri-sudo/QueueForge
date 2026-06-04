@@ -1,12 +1,10 @@
+import '../config/env.js'
 import { Worker } from "bullmq";
 import sendMailJob from "../jobs/emailJob.js";
 import { setImageSize , changeImageType } from "../jobs/fixImage.js";
 import { connection } from "../queue/queue.js";
 
-import dotenv from "dotenv"
-dotenv.config({
-    path:'./.env'
-})
+
 const handlers = {
     'sending-email-to-the-client':sendMailJob , 
     'change-image-type-operation':changeImageType,
