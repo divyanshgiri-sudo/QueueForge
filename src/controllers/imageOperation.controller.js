@@ -3,7 +3,6 @@ import { universalQueue } from "../queue/queue.js";
 const changingImageType = async (req , res) => {
     const {imgTypeUserWants , userPriority} = req.body;
     const userImageLocalPath = req.file?.path
-        console.log(imgTypeUserWants)
     if(!userImageLocalPath){
         return res.status(400).json({
             message:'enter a image'
@@ -67,17 +66,19 @@ const settingImageSize = async (req , res) => {
     }
 
 
-    if(!userHeight || !userWidth ||priorityNo){
+    if(!userHeight || !userWidth || !priorityNo){
         return res.status(400).json({
             message:"please send all the info necessary"
         })
     }
+    const temp1 = Number(userHeight);
+    const temp2 = Number(userWidth);
 
     try {
         await universalQueue.add(
             'setting-image-size' , {
-                userHeight:userHeight , 
-                userWidth:userWidth , 
+                userHeight:temp1 , 
+                userWidth:temp2 , 
                 userImageLocalPath:userImageLocalPath
             },{
                 priority:priorityNo ,

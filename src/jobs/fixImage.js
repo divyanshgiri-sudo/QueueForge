@@ -1,5 +1,6 @@
 import sharp from 'sharp'
 import uploadOnCloudinary from '../utils/cloudinary.js';
+import fs from 'fs'
 
 const uploadImageOnCloudinary = async (path) => {
     // const LocalPath = req.files?.userImage[0]?.path ;
@@ -38,9 +39,11 @@ async  function changeImageType (job){
     const LocalPath =  userImageLocalPath;
 
     await sharp(LocalPath).toFormat(userImageType).toFile(filePath) 
-
     const uploadedImage = await uploadOnCloudinary(filePath)
-    if(!uploadedImage){
+    if(fs.existsSync(filePath)){
+        fs.unlinkSync(filePath)
+    }
+    if(uploadedImage){
         console.log('image seccessfully converted into the format user mentioned and uploaded on cloudinary')
         return;
     }else{
