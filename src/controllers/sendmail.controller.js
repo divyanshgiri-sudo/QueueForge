@@ -1,4 +1,4 @@
-
+import { jobModel } from "../models/email.model.js";
 import { universalQueue } from "../queue/queue.js"
 const sendEmail = async (req,res) => {
     const priorityMap = {
@@ -10,11 +10,20 @@ const sendEmail = async (req,res) => {
         const {to , sub , body , userPriority} = req.body;
 
         const priorityNo = priorityMap[userPriority]
-        if(!to || !userPriority){
+        if(!to ||!sub||!body|| !userPriority){
             return res.status(400).json({
                 message:"Sending All the required details"
             })
         }
+        const jobmodel = new jobModel.create({
+            job_name:'sending-email-to-the-client',
+            payload:{
+                email_reciever:to,
+                email_subject:sub,
+                email_body:body
+            }
+            ,status:'pending'
+        })
         const job = await universalQueue.add(
             'sending-email-to-the-client',{
                 to:to,
