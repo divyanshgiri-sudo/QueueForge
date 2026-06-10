@@ -15,7 +15,7 @@ const sendEmail = async (req,res) => {
                 message:"Sending All the required details"
             })
         }
-        const jobmodel = new jobModel.create({
+        const jobmodel = await jobModel.create({
             job_name:'sending-email-to-the-client',
             payload:{
                 email_reciever:to,
@@ -24,8 +24,14 @@ const sendEmail = async (req,res) => {
             }
             ,status:'pending'
         })
+        if(!jobmodel){
+            return res.status(500).json({
+                message:"cannot save data in mongo db"
+            })
+        }
         const job = await universalQueue.add(
             'sending-email-to-the-client',{
+                mongodbId:jobmodel._id,
                 to:to,
                 subject: sub|| "",
                 body: body|| ""
@@ -39,6 +45,11 @@ const sendEmail = async (req,res) => {
                 }
             }
         )
+        if(!job){
+            res.status(500).json({
+                message:"job coudnt be created"
+            })
+        }
         res.status(200).json({
             message:"Email succesfuly sent to the client"
         })

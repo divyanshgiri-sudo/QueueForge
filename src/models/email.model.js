@@ -5,6 +5,6 @@ const jobSchema = new Schema({
     job_name:String,
     payload:mongoose.Schema.Types.Mixed,
     status:String
-}, {timeseries:true})
+}, {timestamps:true})
 
 export const jobModel = new mongoose.model("jobModel" , jobSchema) 
