@@ -33,14 +33,15 @@ const changingImageType = async (req , res) => {
         },
         status:'pending'
     })
+
     try {
         await universalQueue.add(
             'change-image-type-operation',{
+                mongodbId:jobmodel._id,
                 userImageType:imgTypeUserWants,
                 userImageLocalPath : userImageLocalPath
             },
             {   
-                mongodbId:jobmodel._id,
                 priority:priorityNo,
                 attempts:3,
                 backoff:{

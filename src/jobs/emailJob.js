@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer'
 
-function sendMailJob(job) {
+async function sendMailJob(job) {
 
     const {to , subject , body} = job.data;
     const transporter = nodemailer.createTransport({
@@ -17,14 +17,13 @@ function sendMailJob(job) {
         subject: subject,
         text: body
     }
-
-    transporter.sendMail(emailOptions, (err, info) => {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log("Email sent:", info.response);
-        }
-    });
+    
+    const mail = await transporter.sendMail(emailOptions);
+    if(mail){
+        return "Email successfully sent"
+    }else{
+        return "Email coudnt be sent"
+    }
 }
 
 export default sendMailJob;

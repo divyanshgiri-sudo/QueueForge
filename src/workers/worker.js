@@ -37,22 +37,22 @@ const universalWorker = new Worker(
             return;
 
         }
+        const result = await handler(job);
+
         const currentJob = await jobModel.findByIdAndUpdate(
             job.data.mongodbId,
             {
-                job_id: job.id
+                job_id: job.id,
+                result
             }
             , { new: true }
         )
-        if(job.name==='change-image-type-operation' || job.name === 'setting-image-size'){
-            
-        }
         if (!currentJob) {
             console.log("no job found with this id in mongo db")
             throw new Error
         }
 
-        return await handler(job);
+        return result;
     }
     , { connection }
 )

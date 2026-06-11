@@ -23,9 +23,15 @@ async function setImageSize (job)  {
         width : userWidth
     }).toFile(filePath)
     const uploadedImage = await uploadImageOnCloudinary(filePath)
+    if(fs.existsSync(LocalPath)){
+        fs.unlinkSync(LocalPath)
+    }
+    if(fs.existsSync(filePath)){
+        fs.unlinkSync(filePath)
+    }
     if(uploadedImage){
         console.log('image seccessfully resized and uploadede on cloudinary')
-        return;
+        return uploadedImage.url;
     }else{
         console.log("image coudnt be uploadede on cloudinary after processing")
         throw new error
@@ -43,9 +49,12 @@ async  function changeImageType (job){
     if(fs.existsSync(filePath)){
         fs.unlinkSync(filePath)
     }
+    if(fs.existsSync(LocalPath)){
+        fs.unlinkSync(LocalPath)
+    }
     if(uploadedImage){
         console.log('image seccessfully converted into the format user mentioned and uploaded on cloudinary')
-        return;
+        return uploadedImage.url;
     }else{
         console.log("image coudnt be uploaded on cloudinary after processing")
         throw new error
