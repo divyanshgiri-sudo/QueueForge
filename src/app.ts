@@ -1,6 +1,6 @@
 import express from 'express'
 
-const app = new express();
+const app = express();
 
 app.use(express.json())
 
