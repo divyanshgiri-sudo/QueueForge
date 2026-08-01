@@ -29,7 +29,7 @@ const handlers = {
 }
 const universalWorker = new Worker(
     'universal',
-    async (job) => {
+    async (job : unknown) => {
         const handler = handlers[job.name]
 
         if (!handler) {
