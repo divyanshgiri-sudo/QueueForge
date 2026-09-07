@@ -5,9 +5,10 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/index.js",
-    "worker": "nodemon src/workers/worker.js"
-  },
+  "dev": "nodemon --exec tsx src/index.ts",
+  "worker": "nodemon --exec tsx src/workers/worker.ts",
+  "build": "tsc"
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/divyanshgiri-sudo/QueueForge.git"

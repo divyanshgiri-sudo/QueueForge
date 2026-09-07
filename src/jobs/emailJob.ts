@@ -1,6 +1,14 @@
 import nodemailer from 'nodemailer'
+import { Job } from 'bullmq';
 
-async function sendMailJob(job) {
+import { Types } from 'mongoose';
+interface sendEmailJobType {
+    mongodbId : Types.ObjectId
+    to:string , 
+    subject:string , 
+    body : string
+}
+async function sendMailJob(job :Job<sendEmailJobType>) {
 
     const {to , subject , body} = job.data;
     const transporter = nodemailer.createTransport({

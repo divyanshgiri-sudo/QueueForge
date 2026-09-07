@@ -2,12 +2,12 @@ import sharp from 'sharp'
 import uploadOnCloudinary from '../utils/cloudinary.js';
 import fs from 'fs'
 
-const uploadImageOnCloudinary = async (path) => {
+const uploadImageOnCloudinary = async (path:string) => {
     // const LocalPath = req.files?.userImage[0]?.path ;
     const LocalPath = path;
     if(!LocalPath){
         console.log("give image")
-        throw new error;
+        throw new Error();
     }
     const uploadedImage = await uploadOnCloudinary(LocalPath);
     return uploadedImage;
@@ -34,7 +34,7 @@ async function setImageSize (job)  {
         return uploadedImage.url;
     }else{
         console.log("image coudnt be uploadede on cloudinary after processing")
-        throw new error
+        throw new Error()
     }
     
 }
@@ -57,7 +57,7 @@ async  function changeImageType (job){
         return uploadedImage.url;
     }else{
         console.log("image coudnt be uploaded on cloudinary after processing")
-        throw new error
+        throw new Error()
     }
     
     
