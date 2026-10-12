@@ -21,16 +21,17 @@ connectDb()
 
 
 
+type jobName = "sending-email-to-the-client" |"change-image-type-operation"| "setting-image-size"
 
 const handlers = {
-    'sending-email-to-the-client': sendMailJob,
+    'sending-email-to-the-client': sendMailJob ,
     'change-image-type-operation': changeImageType,
     'setting-image-size': setImageSize
 }
 const universalWorker = new Worker(
     'universal',
-    async (job : unknown) => {
-        const handler = handlers[job.name]
+    async (job ) => {
+        const handler = handlers[job.name as jobName]
 
         if (!handler) {
             console.log(`job NOt present for the cuurent job name - ${job.name}`)
@@ -70,6 +71,9 @@ universalWorker.on('completed',
     }
 )
 universalWorker.on('failed', async (job, err) => {
+    if(!job){
+        return ;
+    }
     const currentJob = await jobModel.findByIdAndUpdate(
         job.data.mongodbId,
         {

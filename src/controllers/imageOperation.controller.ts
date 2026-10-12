@@ -1,8 +1,9 @@
 import { universalQueue } from "../queue/queue.js";
 import { jobModel } from "../models/email.model.js";
 import {  type Request, type Response } from "express";
+import { FormatEnum } from "sharp";
 interface ImageOperationBody {
-    imgTypeUserWants: string,
+    imgTypeUserWants: keyof FormatEnum,
     userPriority: "low" | "med" | "high"
 }
 const priorityMap = {

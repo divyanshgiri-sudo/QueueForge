@@ -10,8 +10,7 @@ interface job {
 
 const jobSchema = new Schema<job>({
     job_id:{
-        type:Number,
-        required:true
+        type:Number
     },
     job_name:{
         type:String ,

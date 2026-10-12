@@ -65,7 +65,7 @@ const sendEmail = async (
                 message: "job coudnt be created"
             })
         }
-        res.status(200).json({
+        return res.status(200).json({
             message: "Email succesfuly sent to the client"
         })
     } catch (error) {
